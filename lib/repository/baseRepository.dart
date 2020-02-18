@@ -1,14 +1,13 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:trace_expanses/mapper/categoryMapper.dart';
 
 
 abstract class BaseSqlRepository{
-  // void save();
-  // void delete();
-  // void update()
+
   Database database;
 
+
+  // Open database connection
   void connectDb() async{
   
     String realPath = join(await getDatabasesPath(), 'demo.db');
@@ -21,26 +20,12 @@ abstract class BaseSqlRepository{
         // When creating the db.
         print("Real Database Path : $realPath");
         await db.execute('CREATE TABLE CATEGORY (id INTEGER PRIMARY KEY, title TEXT)');
-        await db.execute('CREATE TABLE EXPENSE (id INTEGER PRIMARY KEY, price REAL)');
+        await db.execute('CREATE TABLE EXPENSE (id INTEGER PRIMARY KEY, description TEXT, price REAL, date TEXT, categoryId INTEGER, FOREIGN KEY (categoryId) REFERENCES CATEGORY(id))');
 
     });
   }
 
-
-
-  void addCategory() async{
-    print("Category adding...");
-    await database.rawInsert("INSERT INTO CATEGORY (title) VALUES ('Mesrubat')");
-  }
-
-  void getCategories() async {
-    print("Categories waiting..");
-    List<Map<String,dynamic>> maps = await database.rawQuery("SELECT * FROM CATEGORY");
-    maps.forEach((element) {
-      print(element);
-    });
-  }
-
+  // Close database connection
   void close() async{
     print("Database Closed");
     await database.close();

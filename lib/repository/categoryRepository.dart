@@ -1,6 +1,5 @@
 import 'package:trace_expanses/model/category.dart';
 import 'baseRepository.dart';
-import 'package:trace_expanses/mapper/categoryMapper.dart';
 
 class CategoryRepository extends BaseSqlRepository {
 
@@ -11,7 +10,7 @@ class CategoryRepository extends BaseSqlRepository {
   CategoryRepository(){
     connectDb();
   }
- 
+
 
   Future<List<Map<String, dynamic>>> findAll() async{
     return await database.rawQuery("SELECT * FROM $_table");
@@ -25,7 +24,9 @@ class CategoryRepository extends BaseSqlRepository {
     return (await database.rawQuery("SELECT * FROM $_table WHERE $_title=$title")).single;
   }
 
-
+  Future<dynamic> countAll() async{
+    return (await database.rawQuery("SELECT COUNT(*) FROM $_table")).single['COUNT(*)'];
+  }
 
   Future<void> save(Category model) async{
     await database.insert(_table, model.toMap());

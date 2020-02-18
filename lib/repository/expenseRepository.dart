@@ -24,8 +24,10 @@ class ExpenseRepository extends BaseSqlRepository{
   }
 
   Future<List<Map<String, dynamic>>> findAllByCategoryId(int categoryId) async{
-    // TODO : Use inner join here.
-    return await database.rawQuery("SELECT * FROM $_table");
+    // I don't know if it is work.
+    // But if it is not. Just try to change names that i've declared before to EXPENSE.id like.
+    // If it won't work too than write queries like the old fashioned way.
+    return await database.rawQuery("SELECT $_id,$_price,$_description, $_date, title FROM $_table INNER JOIN CATEGORY ON CATEGORY.id=$_categoryId ");
   }
 
   Future<dynamic> countAll() async{
