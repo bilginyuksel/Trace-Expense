@@ -19,8 +19,8 @@ abstract class BaseSqlRepository{
       onCreate: (Database db, int version) async{
         // When creating the db.
         print("Real Database Path : $realPath");
-        await db.execute('CREATE TABLE CATEGORY (id INTEGER PRIMARY KEY, title TEXT)');
-        await db.execute('CREATE TABLE EXPENSE (id INTEGER PRIMARY KEY, description TEXT, price REAL, date TEXT, categoryId INTEGER, FOREIGN KEY (categoryId) REFERENCES CATEGORY(id))');
+        await db.execute('CREATE TABLE CATEGORY (cid INTEGER PRIMARY KEY, title TEXT)');
+        await db.execute('CREATE TABLE EXPENSE (eid INTEGER PRIMARY KEY, description TEXT, price REAL, date TEXT, categoryId INTEGER, FOREIGN KEY (categoryId) REFERENCES CATEGORY(id))');
 
     });
   }

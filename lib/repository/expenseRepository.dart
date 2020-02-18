@@ -1,13 +1,16 @@
+import 'package:trace_expanses/model/expense.dart';
+
 import 'baseRepository.dart';
 
 class ExpenseRepository extends BaseSqlRepository{
 
-  String _table = "EXPENSE";
-  String _id = "id";
-  String _price = "price";
-  String _description = "description";
-  String _date = "date";
-  String _categoryId = "categoryId";
+  static const String _table = "EXPENSE";
+  static const String _id = "eid";
+  static const String _price = "price";
+  static const String _description = "description";
+  static const String _date = "date";
+  static const String _categoryId = "categoryId";
+  static const String _innerJoin = "INNER JOIN CATEGORY ON CATEGORY.cid = $_categoryId";
   
 
 
@@ -16,18 +19,15 @@ class ExpenseRepository extends BaseSqlRepository{
   }
 
   Future<Map<String, dynamic>> findById(int id) async{
-    return (await database.rawQuery("SELECT * FROM $_table WHERE $_id=$id")).single;
+    return (await database.rawQuery("SELECT * FROM $_table $_innerJoin WHERE $_id=$id")).single;
   }
 
   Future<List<Map<String, dynamic>>> findAll() async{
-    return await database.rawQuery("SELECT * FROM $_table");
+    return await database.rawQuery("SELECT * FROM $_table $_innerJoin");
   }
 
   Future<List<Map<String, dynamic>>> findAllByCategoryId(int categoryId) async{
-    // I don't know if it is work.
-    // But if it is not. Just try to change names that i've declared before to EXPENSE.id like.
-    // If it won't work too than write queries like the old fashioned way.
-    return await database.rawQuery("SELECT $_id,$_price,$_description, $_date, title FROM $_table INNER JOIN CATEGORY ON CATEGORY.id=$_categoryId ");
+    return await database.rawQuery("SELECT * FROM $_table $_innerJoin WHERE categoryId=$categoryId");
   }
 
   Future<dynamic> countAll() async{
@@ -36,5 +36,9 @@ class ExpenseRepository extends BaseSqlRepository{
 
   Future<dynamic> sumAll() async{
     return (await database.rawQuery("SELECT SUM($_price) FROM $_table")).single['SUM($_price)'];
+  }
+
+  Future<void> save(Expense expense) async{
+    await database.insert(_table, expense.toMap());
   }
 }

@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:trace_expanses/repository/categoryRepository.dart';
+import 'package:trace_expanses/repository/expenseRepository.dart';
+
+import 'model/category.dart';
+import 'model/expense.dart';
 
 
 void main() => runApp(MyApp());
@@ -31,10 +36,36 @@ class _MyHomePageState extends State<MyHomePage> {
   void _incrementCounter() async{
 
     // CategoryRepository _categoryRepository = CategoryRepository();
-    // _categoryRepository.close();
+    // await _categoryRepository.connectDb();
+    // await _categoryRepository.save(Category(title: "Mesrubat"));
+    // await _categoryRepository.save(Category(title: "Ev"));
+    // await _categoryRepository.save(Category(title: "Ulasim"));
+    // await _categoryRepository.save(Category(title: "Egitim"));
+    // await _categoryRepository.save(Category(title: "Eglence"));
+    // await _categoryRepository.save(Category(title: "Yemek"));
+    // (await _categoryRepository.findAll()).forEach((element) {
+    //   print(element.toString());
+    // });
+    // print((await _categoryRepository.countAll()));
+    // await _categoryRepository.close();
 
     // ExpenseRepository _expenseRepository = ExpenseRepository();
-    // _expenseRepository.close();
+    // await _expenseRepository.connectDb();
+    // await _expenseRepository.save(Expense(category: Category(cid: 1,title: "-"),description: "-",price: 32.29));
+    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 22.74));
+    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 10.11));
+    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 31.22));
+    // await _expenseRepository.save(Expense(category: Category(cid: 3,title: "-"),description: "-",price: 15.76));
+    // await _expenseRepository.save(Expense(category: Category(cid: 5,title: "-"),description: "-",price: 23.54));
+    // await _expenseRepository.save(Expense(category: Category(cid: 4,title: "-"),description: "-",price: 33.15));
+    // await _expenseRepository.save(Expense(category: Category(cid: 6,title: "-"),description: "-",price: 11.25));
+    // print(await _expenseRepository.countAll());
+    // (await _expenseRepository.findAllByCategoryId(2)).forEach((element) {
+    //   print(element.toString());
+    // });
+
+    // print((await _expenseRepository.findById(6)).toString());
+    // await _expenseRepository.close();
 
 
     setState(() {

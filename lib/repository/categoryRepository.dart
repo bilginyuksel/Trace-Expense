@@ -5,11 +5,7 @@ class CategoryRepository extends BaseSqlRepository {
 
   String _table = "CATEGORY";
   String _title = "title";
-  String _id = "id";
-
-  CategoryRepository(){
-    connectDb();
-  }
+  String _id = "cid";
 
 
   Future<List<Map<String, dynamic>>> findAll() async{

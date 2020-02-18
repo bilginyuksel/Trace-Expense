@@ -1,23 +1,23 @@
 class Category{
   String title;
-  int id;
+  int cid;
 
-  Category({this.id, this.title});
+  Category({this.cid, this.title});
 
   Map<String, dynamic> toMap() => {
-    "id":id,
+    "cid":cid,
     "title":title,
   };
 
   Category.fromMap(Map<String, dynamic> map){
-    this.id = map['id'];
+    this.cid = map['cid'];
     this.title = map['title'];
   }
 
   @override
   String toString() {
     // TODO: implement toString
-    return "id:$id\ntitle:$title";
+    return "cid:$cid\ntitle:$title";
   }
 }
 
