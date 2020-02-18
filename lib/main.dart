@@ -52,7 +52,6 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() async{
     CategoryRepository base = CategoryRepository();
-    await base.connectDb();
     // Category cat = await base.findById(1);
     // print(cat);
     List<Category> categories = await base.findAll();
