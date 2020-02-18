@@ -29,13 +29,8 @@ class Expense{
     this.eid = map['eid'];
     this.description = map['description'];
     this.price = map['price'];
-
-    // TODO : You have to achieve this category problem
-    // You're going to hold the category in the database as a number.
-    // So you have to push it as a number but when you try to get this.
-    // You have to convert it to real category object.
     this.category = Category(cid: map['categoryId'], title: map['title']);
-    this.date = map['date'];
+    this.date = DateTime.parse(map['date']);
   }
   
   

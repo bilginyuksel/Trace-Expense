@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:trace_expanses/repository/categoryRepository.dart';
 import 'package:trace_expanses/repository/expenseRepository.dart';
+import 'package:trace_expanses/service/categoryService.dart';
+import 'package:trace_expanses/service/categoryServiceImpl.dart';
 
 import 'model/category.dart';
 import 'model/expense.dart';
@@ -34,6 +36,11 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   void _incrementCounter() async{
+
+    // CategoryRepository _categoryRepository = new CategoryRepository();
+    // await _categoryRepository.connectDb();
+    // ICategoryService _categoryService = new CategoryServiceImpl(_categoryRepository);
+    
 
     // CategoryRepository _categoryRepository = CategoryRepository();
     // await _categoryRepository.connectDb();

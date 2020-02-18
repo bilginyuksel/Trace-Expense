@@ -8,7 +8,7 @@ abstract class BaseSqlRepository{
 
 
   // Open database connection
-  void connectDb() async{
+  Future<void> connectDb() async{
   
     String realPath = join(await getDatabasesPath(), 'demo.db');
     database = await openDatabase(realPath, version:1,
@@ -26,7 +26,7 @@ abstract class BaseSqlRepository{
   }
 
   // Close database connection
-  void close() async{
+  Future<void> close() async{
     print("Database Closed");
     await database.close();
   }

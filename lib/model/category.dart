@@ -16,7 +16,6 @@ class Category{
 
   @override
   String toString() {
-    // TODO: implement toString
     return "cid:$cid\ntitle:$title";
   }
 }

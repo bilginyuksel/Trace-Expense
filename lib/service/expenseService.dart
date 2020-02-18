@@ -1,15 +1,13 @@
-import 'package:trace_expanses/model/expense.dart';
 /*
 servis class for expense operations */
-abstract class AExpenseService {
-  Expense expense;
+import 'package:trace_expanses/model/expense.dart';
 
-  // void createExpense();
-  // List getAllExpensesByCategory();
-  // List getAllExpenses();
-  // Expense getExpenseById();
-  // List getAllExpenseByDateTime();
-  // double getSumOfAllExpensesByCategory();
+abstract class IExpenseService {
+
+  Future<List<Expense>> getAllExpensesByCategory(int categoryId);
+  Future<List<Expense>> getAllExpenses();
+  Future<Expense> getExpenseById(int id);
+  Future<List<Expense>> getAllExpenseByDateTime();
   
 }
 
