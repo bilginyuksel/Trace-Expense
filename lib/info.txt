@@ -1,0 +1,4 @@
+TODO Refactorization: 
+    I can delete baseRepository and create a DBProvider kind of class.
+    Open that provider when application opened. And close the connection when app disposed.
+    Just send database information to repositories via constructor parameter.

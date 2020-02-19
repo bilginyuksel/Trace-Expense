@@ -7,7 +7,7 @@ abstract class IExpenseService {
   Future<List<Expense>> getAllExpensesByCategory(int categoryId);
   Future<List<Expense>> getAllExpenses();
   Future<Expense> getExpenseById(int id);
-  Future<List<Expense>> getAllExpenseByDateTime();
-  
+  Future<List<Expense>> getAllExpenseByDateTime(DateTime before, DateTime after);
+  Future<dynamic> sumAllExpensesBetweenDateBeforeAndDateAfter(DateTime before, DateTime after);
 }
 

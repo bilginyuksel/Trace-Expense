@@ -19,4 +19,3 @@ class Category{
     return "cid:$cid\ntitle:$title";
   }
 }
-

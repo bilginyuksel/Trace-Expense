@@ -13,7 +13,6 @@ class ExpenseRepository extends BaseSqlRepository{
   static const String _innerJoin = "INNER JOIN CATEGORY ON CATEGORY.cid = $_categoryId";
   
 
-
   ExpenseRepository(){
     connectDb();
   }
@@ -36,6 +35,14 @@ class ExpenseRepository extends BaseSqlRepository{
 
   Future<dynamic> sumAll() async{
     return (await database.rawQuery("SELECT SUM($_price) FROM $_table")).single['SUM($_price)'];
+  }
+
+  Future<List<Map<String, dynamic>>> findAllBetweenDateBeforeAndDateAfter(String before, String after) async{
+    return await database.rawQuery("SELECT * FROM $_table $_innerJoin WHERE $_date BETWEEN $before AND $after");
+  }
+
+  Future<dynamic> sumAllBetweenDateBeforeAndDateAfter(String before, String after) async{
+    return (await database.rawQuery("SELECT SUM($_price) FROM $_table WHERE $_date BETWEEN $before AND $after")).single['SUM($_price)'];
   }
 
   Future<void> save(Expense expense) async{

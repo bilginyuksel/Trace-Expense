@@ -35,6 +35,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+
   void _incrementCounter() async{
 
     // CategoryRepository _categoryRepository = new CategoryRepository();
@@ -74,7 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
     // print((await _expenseRepository.findById(6)).toString());
     // await _expenseRepository.close();
 
-
     setState(() {
       _counter++;
     });
@@ -91,8 +91,9 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            Icon(Icons.home),
             Text(
-              'You have pushed the button this many times:',
+              'Huseyin:',
             ),
             Text(
               '$_counter',

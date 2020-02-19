@@ -9,9 +9,15 @@ class ExpenseServiceImplementation implements IExpenseService{
   ExpenseServiceImplementation(this._expenseRepository);
 
   @override
-  Future<List<Expense>> getAllExpenseByDateTime() {
-    // TODO: implement getAllExpenseByDateTime
-    throw UnimplementedError();
+  Future<List<Expense>> getAllExpenseByDateTime(DateTime before, DateTime after) async { 
+
+    List<Expense> expenses = new List();
+    List<Map<String, dynamic>> expensesMaps = await _expenseRepository.findAllBetweenDateBeforeAndDateAfter(before.toString(), after.toString());
+    expensesMaps.forEach((element) {
+      expenses.add(Expense.fromMap(element));
+    });
+
+    return expenses;
   }
 
   @override
@@ -41,6 +47,11 @@ class ExpenseServiceImplementation implements IExpenseService{
   @override
   Future<Expense> getExpenseById(int id) async {
     return Expense.fromMap(await _expenseRepository.findById(id));
+  }
+
+  @override
+  Future<dynamic> sumAllExpensesBetweenDateBeforeAndDateAfter(DateTime before, DateTime after) async {
+    return await _expenseRepository.sumAllBetweenDateBeforeAndDateAfter(before.toString(), after.toString());
   }
 
 
