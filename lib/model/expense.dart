@@ -33,7 +33,10 @@ class Expense{
     this.date = DateTime.parse(map['date']);
   }
   
-  
+  @override
+  String toString() {
+    return "{Eid:$eid,\nCategory:$category,\nDate:$date,\nDescription:$description,\nPrice:$price}";
+  }
 }
 
 

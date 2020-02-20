@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:sqflite/sqflite.dart';
 import 'package:trace_expanses/repository/categoryRepository.dart';
+import 'package:trace_expanses/repository/db_bind.dart';
 import 'package:trace_expanses/repository/expenseRepository.dart';
 import 'package:trace_expanses/service/categoryService.dart';
 import 'package:trace_expanses/service/categoryServiceImpl.dart';
+import 'package:trace_expanses/service/expenseService.dart';
+import 'package:trace_expanses/service/expenseServiceImpl.dart';
 
 import 'model/category.dart';
 import 'model/expense.dart';
@@ -18,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(title: 'Exponenses'),
     );
   }
 }
@@ -36,47 +40,31 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
 
+
   void _incrementCounter() async{
 
-    // CategoryRepository _categoryRepository = new CategoryRepository();
-    // await _categoryRepository.connectDb();
-    // ICategoryService _categoryService = new CategoryServiceImpl(_categoryRepository);
+    // ExpenseRepository _expenseRepository = new ExpenseRepository();
+    // await _expenseRepository.connectDb();
+    // IExpenseService expenseService = new ExpenseServiceImplementation(_expenseRepository);
+    // DateTime before = DateTime.parse("2020-02-18 22:56:59.469036");
+    // DateTime after = DateTime.parse("2020-02-18 22:56:59.502100");
+    // List<Expense> expenses = await expenseService.getAllExpensesBetweenDateBeforeAndDateAfter(before, after);
+    // expenses.forEach((element) {
+    //   print(element);
+    // });
+
+    // Database db = await SqfliteConnector.instace.db;
     
 
-    // CategoryRepository _categoryRepository = CategoryRepository();
-    // await _categoryRepository.connectDb();
-    // await _categoryRepository.save(Category(title: "Mesrubat"));
-    // await _categoryRepository.save(Category(title: "Ev"));
-    // await _categoryRepository.save(Category(title: "Ulasim"));
-    // await _categoryRepository.save(Category(title: "Egitim"));
-    // await _categoryRepository.save(Category(title: "Eglence"));
-    // await _categoryRepository.save(Category(title: "Yemek"));
-    // (await _categoryRepository.findAll()).forEach((element) {
-    //   print(element.toString());
-    // });
-    // print((await _categoryRepository.countAll()));
-    // await _categoryRepository.close();
-
-    // ExpenseRepository _expenseRepository = ExpenseRepository();
-    // await _expenseRepository.connectDb();
-    // await _expenseRepository.save(Expense(category: Category(cid: 1,title: "-"),description: "-",price: 32.29));
-    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 22.74));
-    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 10.11));
-    // await _expenseRepository.save(Expense(category: Category(cid: 2,title: "-"),description: "-",price: 31.22));
-    // await _expenseRepository.save(Expense(category: Category(cid: 3,title: "-"),description: "-",price: 15.76));
-    // await _expenseRepository.save(Expense(category: Category(cid: 5,title: "-"),description: "-",price: 23.54));
-    // await _expenseRepository.save(Expense(category: Category(cid: 4,title: "-"),description: "-",price: 33.15));
-    // await _expenseRepository.save(Expense(category: Category(cid: 6,title: "-"),description: "-",price: 11.25));
-    // print(await _expenseRepository.countAll());
-    // (await _expenseRepository.findAllByCategoryId(2)).forEach((element) {
-    //   print(element.toString());
-    // });
-
-    // print((await _expenseRepository.findById(6)).toString());
-    // await _expenseRepository.close();
+   
 
     setState(() {
       _counter++;
+    //   showDatePicker(context: context,
+    //     initialDate: DateTime.now().subtract(Duration(days: 99)),
+    //     firstDate: DateTime.now().subtract(Duration(days: 100)),
+    //     lastDate: DateTime.now());
+
     });
   }
 
@@ -85,13 +73,17 @@ class _MyHomePageState extends State<MyHomePage> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         title: Text(widget.title),
+        elevation: .1,
+        backgroundColor: Color.fromRGBO(49, 87, 110, 1),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Icon(Icons.home),
+            
             Text(
               'Huseyin:',
             ),

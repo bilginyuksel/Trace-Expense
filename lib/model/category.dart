@@ -16,6 +16,6 @@ class Category{
 
   @override
   String toString() {
-    return "cid:$cid\ntitle:$title";
+    return "{Cid:$cid,\nTitle:$title}";
   }
 }

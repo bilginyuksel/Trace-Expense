@@ -1,17 +1,27 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
+class SqfliteConnector {
 
-abstract class BaseSqlRepository{
+  SqfliteConnector._privateConstructor();
+  static final SqfliteConnector instace = SqfliteConnector._privateConstructor();
+  Database _database;
 
-  Database database;
+  
+  Future<Database> get db async {
+    if (_database==null) await _connectDb();
+    return _database;
+  }
 
+  Future<void> kill() async{
+    await _close();
+  }
 
-  // Open database connection
-  Future<void> connectDb() async{
+  
+  Future<void> _connectDb() async{
   
     String realPath = join(await getDatabasesPath(), 'demo.db');
-    database = await openDatabase(realPath, version:1,
+    _database = await openDatabase(realPath, version:1,
       onOpen: (db){
         print("Database connection opened !\nPath : $realPath");
         },
@@ -26,8 +36,7 @@ abstract class BaseSqlRepository{
   }
 
   // Close database connection
-  Future<void> close() async{
-    await database.close();
+  Future<void> _close() async{
+    await _database.close();
   }
 }
-
