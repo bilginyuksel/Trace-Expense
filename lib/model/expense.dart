@@ -35,7 +35,7 @@ class Expense{
   
   @override
   String toString() {
-    return "{Eid:$eid,\nCategory:$category,\nDate:$date,\nDescription:$description,\nPrice:$price}";
+    return "{Eid:$eid,\n\tCategory:$category,\n\tDate:$date,\n\tDescription:$description,\n\tPrice:$price}";
   }
 }
 

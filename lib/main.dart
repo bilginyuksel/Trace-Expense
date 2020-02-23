@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:trace_expanses/repository/categoryRepository.dart';
 import 'package:trace_expanses/repository/db_bind.dart';
 import 'package:trace_expanses/repository/expenseRepository.dart';
@@ -7,14 +6,15 @@ import 'package:trace_expanses/service/categoryService.dart';
 import 'package:trace_expanses/service/categoryServiceImpl.dart';
 import 'package:trace_expanses/service/expenseService.dart';
 import 'package:trace_expanses/service/expenseServiceImpl.dart';
-
-import 'model/category.dart';
+import 'package:trace_expanses/view/expense_dialog.dart';
+import 'package:trace_expanses/view/pie_chart.dart';
 import 'model/expense.dart';
 
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -38,25 +38,41 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  ExpenseRepository expenseRepository;
+  IExpenseService expenseService;
+  CategoryRepository categoryRepository;
+  ICategoryService categoryService;
 
 
+  @override
+  void initState() {
+    
+    SqfliteConnector.instance.db.then((value) {
+      categoryRepository = new CategoryRepository(value);
+      expenseRepository = new ExpenseRepository(value);
+
+      expenseService = new ExpenseServiceImplementation(expenseRepository);
+      categoryService = new CategoryServiceImpl(categoryRepository);
+
+      setState(() {
+        // If any data need's to load.
+      });
+
+
+    });
+  }
 
   void _incrementCounter() async{
 
-    // ExpenseRepository _expenseRepository = new ExpenseRepository();
-    // await _expenseRepository.connectDb();
-    // IExpenseService expenseService = new ExpenseServiceImplementation(_expenseRepository);
-    // DateTime before = DateTime.parse("2020-02-18 22:56:59.469036");
-    // DateTime after = DateTime.parse("2020-02-18 22:56:59.502100");
-    // List<Expense> expenses = await expenseService.getAllExpensesBetweenDateBeforeAndDateAfter(before, after);
-    // expenses.forEach((element) {
-    //   print(element);
-    // });
-
-    // Database db = await SqfliteConnector.instace.db;
+    List<Expense> expenses = await expenseService.getAllExpenses();
+    expenses.forEach((element) {
+      print(element);
+    });
     
+    // Build expense creation dialog to save your expense.
+    ExpenseDialogBuilder builder = new ExpenseDialogBuilder(categories : await categoryService.getAllCategories(), saveExpense: expenseRepository.save,);
+    showDialog(context: context, builder: (BuildContext context) {return builder;});
 
-   
 
     setState(() {
       _counter++;
@@ -67,6 +83,27 @@ class _MyHomePageState extends State<MyHomePage> {
 
     });
   }
+
+  GestureDetector optionCard(String day, dynamic func){
+    return GestureDetector(
+      onTap: func,
+      child: Card(
+        elevation: 5,
+        child: Padding(
+          child: Text(
+            day,
+            style:TextStyle(
+              fontSize: 16
+            ),
+            ),
+          padding: EdgeInsets.all(10),
+        ),
+        margin: EdgeInsets.all(10),
+      ),
+    );
+  }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -80,13 +117,17 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Icon(Icons.home),
-            
-            Text(
-              'Huseyin:',
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                optionCard("Today",()=>print("This day")),
+                optionCard("Week",()=>print("This week")),
+                optionCard("Month",()=>print("This Month")),
+              ],
             ),
+            Expanded(child: DatumLegendWithMeasures(  animate: true,), flex: 1,),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headline4,

@@ -4,7 +4,7 @@ import 'package:sqflite/sqflite.dart';
 class SqfliteConnector {
 
   SqfliteConnector._privateConstructor();
-  static final SqfliteConnector instace = SqfliteConnector._privateConstructor();
+  static final SqfliteConnector instance = SqfliteConnector._privateConstructor();
   Database _database;
 
   
@@ -23,10 +23,10 @@ class SqfliteConnector {
     String realPath = join(await getDatabasesPath(), 'demo.db');
     _database = await openDatabase(realPath, version:1,
       onOpen: (db){
-        print("Database connection opened !\nPath : $realPath");
+        print("Log: Database connection opened !\nPath : $realPath");
         },
       onCreate: (Database db, int version) async{
-        print("Real Database Path : $realPath");
+        print("Log: Real Database Path : $realPath");
         
         await db.execute('CREATE TABLE CATEGORY (cid INTEGER PRIMARY KEY, title TEXT)');
         await db.execute('CREATE TABLE EXPENSE (eid INTEGER PRIMARY KEY, description TEXT, price REAL, date TEXT, categoryId INTEGER, FOREIGN KEY (categoryId) REFERENCES CATEGORY(id))');
