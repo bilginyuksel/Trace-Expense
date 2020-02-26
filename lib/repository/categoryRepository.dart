@@ -22,7 +22,7 @@ class CategoryRepository {
   } 
 
   Future<Map<String, dynamic>> findByTitle(String title) async {
-    return (await _database.rawQuery("SELECT * FROM $_table WHERE $_title=$title")).single;
+    return (await _database.rawQuery("SELECT * FROM $_table WHERE $_title='$title'")).single;
   }
 
   Future<dynamic> countAll() async{

@@ -1,5 +1,0 @@
-Expense creation page.
-Cateegory creation page on settings section.
-//
-Create Settings part of the program.
-Prototype.

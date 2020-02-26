@@ -37,12 +37,7 @@ class _ExpenseDialogBuilder extends State<ExpenseDialogBuilder>  {
   
   }
 
-  @override
-  void dispose() {
-    // Close the keyboard.
-    if(FocusScope.of(context).hasFocus)FocusScope.of(context).unfocus();
-    super.dispose();
-  }
+ 
 
   @override
   Widget build(BuildContext context) {
@@ -116,16 +111,8 @@ class _ExpenseDialogBuilder extends State<ExpenseDialogBuilder>  {
               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               onPressed: () async{
                 await saveExpense(Expense(description: description, price: double.parse(price), category: categories[categoryIndex]));
-                // Scaffold.of(context).showSnackBar(
-                //   SnackBar(
-                //     content: const Text('Successfully created'),
-                //     action: SnackBarAction(
-                //       label: 'UNDO',
-                //       onPressed: (){print("Delete new expense which is created now.");},
-                //     ),)
-                // );
-                dispose();
-
+                Navigator.pop(context);
+                
               },
             )
           ],

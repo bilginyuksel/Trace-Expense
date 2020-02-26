@@ -1,13 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
+import 'package:trace_expanses/model/category.dart';
+import 'package:trace_expanses/model/expense.dart';
 
 class DatumLegendWithMeasures extends StatelessWidget {
 
   List<charts.Series> seriesList;
   final bool animate;
+  List<Category> categories = new List();
+  List<Expense> expenses = new List();
 
-  DatumLegendWithMeasures({ this.animate}){
-    seriesList = _sampleData();
+  DatumLegendWithMeasures(List<Category> categories, List<Expense> expenses, {this.animate}){
+    seriesList = _createData(categories, expenses);
   }
 
 
@@ -32,23 +36,32 @@ class DatumLegendWithMeasures extends StatelessWidget {
     );
   }
 
-  static List<charts.Series<LinearSales, String>> _sampleData(){
-    
-    final data = [
-      LinearSales(category: "Drinks",price: 150),
-      LinearSales(category: "Education",price:220),
-      LinearSales(category: "Food", price:100),
-      LinearSales(category: "Transportation", price: 50),
-      LinearSales(category: "Entertainment", price:110)
-    ];
+  
+  List<charts.Series<CategoryExpenseSeries, String>> _createData(List<Category> categories, List<Expense> expenses){
+
+    List<CategoryExpenseSeries> expenseList = new List();
+    Map<int, double> mapToCalculate= new Map();
+
+    categories.forEach((element) {
+      mapToCalculate[element.cid] = 0;
+    });    
+
+  
+    expenses.forEach((element) {
+      mapToCalculate.update(element.category.cid, (value) => value+ element.price);
+    });
+
+    mapToCalculate.forEach((key, value) {
+      expenseList.add(CategoryExpenseSeries(price: value, category: categories[key-1].title));
+    });
 
     return [
-      new charts.Series<LinearSales, String>(
+      new charts.Series<CategoryExpenseSeries, String>(
         id:'Expenses',
-        domainFn: (LinearSales expense, _) => expense.category,
-        measureFn: (LinearSales expense, _) => expense.price,
-        data : data,
-        labelAccessorFn: (LinearSales row, _) => '${row.price}: ${row.category}',
+        domainFn: (CategoryExpenseSeries expense, _) => expense.category,
+        measureFn: (CategoryExpenseSeries expense, _) => expense.price,
+        data : expenseList,
+        labelAccessorFn: (CategoryExpenseSeries row, _) => '${row.price}: ${row.category}',
 
       )
     ];
@@ -57,9 +70,80 @@ class DatumLegendWithMeasures extends StatelessWidget {
 
 }
 
-class LinearSales {
+class CategoryExpenseSeries {
   final String category;
-  final int price;
+  final double price;
 
-  LinearSales({this.category, this.price});
+  CategoryExpenseSeries({this.category, this.price});
+}
+
+
+class DateTimeComboLinePointChart extends StatelessWidget {
+  List<charts.Series> seriesList;
+  final bool animate;
+  List<Expense> expenses = new List();  
+
+  DateTimeComboLinePointChart(List<Expense> expenses, {this.animate}){
+    this.seriesList = _createData(expenses);
+  }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return new charts.TimeSeriesChart(
+      seriesList,
+      animate: animate,
+      // Configure the default renderer as a line renderer. This will be used
+      // for any series that does not define a rendererIdKey.
+      //
+      // This is the default configuration, but is shown here for  illustration.
+      defaultRenderer: new charts.LineRendererConfig(),
+      // Custom renderer configuration for the point series.
+      customSeriesRenderers: [
+        new charts.PointRendererConfig(
+            // ID used to link series to this renderer.
+            customRendererId: 'customPoint')
+      ],
+      // Optionally pass in a [DateTimeFactory] used by the chart. The factory
+      // should create the same type of [DateTime] as the data provided. If none
+      // specified, the default creates local date time.
+    );
+  }
+
+  /// Create one series with sample hard coded data.
+  List<charts.Series<TimeSeriesExpense, DateTime>> _createData(List<Expense> expenses) {
+
+    List<TimeSeriesExpense> timeSeriesExpenseList = new List();
+
+    expenses.forEach((element) {
+      timeSeriesExpenseList.add(TimeSeriesExpense(element.date, element.price));
+    });
+
+    return [
+      
+      new charts.Series<TimeSeriesExpense, DateTime>(
+        id: 'LineExpense',
+        colorFn: (_, __) => charts.MaterialPalette.red.shadeDefault,
+        domainFn: (TimeSeriesExpense expense, _) => expense.time,
+        measureFn: (TimeSeriesExpense expense, _) => expense.expense,
+        data: timeSeriesExpenseList,
+      ),
+      new charts.Series<TimeSeriesExpense, DateTime>(
+          id: 'ScatterExpense',
+          colorFn: (_, __) => charts.MaterialPalette.green.shadeDefault,
+          domainFn: (TimeSeriesExpense expense, _) => expense.time,
+          measureFn: (TimeSeriesExpense expense, _) => expense.expense,
+          data: timeSeriesExpenseList)
+        // Configure our custom point renderer for this series.
+        ..setAttribute(charts.rendererIdKey, 'customPoint'),
+    ];
+  }
+}
+
+/// Sample time series data type.
+class TimeSeriesExpense {
+  final DateTime time;
+  final double expense;
+
+  TimeSeriesExpense(this.time, this.expense);
 }

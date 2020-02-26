@@ -34,14 +34,16 @@ class CategoryServiceImpl extends ICategoryService{
   }
 
   @override
-  Future<void> saveCategory(Category cat) async {
+  Future<dynamic> saveCategory(Category cat) async {
     // Check if any category exists with the same title
+    try{
     Map<String, dynamic> categoryMap = await _categoryRepository.findByTitle(cat.title);
-    if(categoryMap.isEmpty) {
+    print("Can't add");
+    return categoryMap;
+    }catch(BadState ){
       await _categoryRepository.save(cat);
-    }else{
-      throw CategoryUniqueTitle("A category exists with the title you've entered.");
     }
+    
   }
 
 }
